@@ -1,0 +1,128 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font: 14px "Century Gothic", Futura, sans-serif;
+	margin: 20px;
+}
+
+ol,
+ul {
+	padding-left: 30px;
+}
+
+button:focus,
+select:focus {
+	outline: none;
+}
+
+.board-row:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+.status {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.square {
+	background: #fff;
+	border: 1px solid #999;
+	float: left;
+	font-size: 28px;
+	font-weight: bold;
+	line-height: 34px;
+	height: 34px;
+	margin-right: -1px;
+	margin-top: -1px;
+	padding: 0;
+	text-align: center;
+	width: 34px;
+	transition: background 0.5s ease-in;
+}
+
+.square:focus {
+	outline: none;
+}
+
+.kbd-navigation .square:focus {
+	background: #ddd;
+}
+
+.game {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.game-info {
+	margin-left: 20px;
+	width: 250px;
+}
+
+.btn {
+	background: white;
+	border: 2px solid #49a9f2;
+	padding: 0.5em 1.2em;
+	cursor: pointer;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+}
+
+.btn:hover,
+.btn:active {
+	color: white;
+}
+
+.btn:hover {
+	background: #49a9f2;
+}
+
+.btn:active {
+	background: #488ec4;
+}
+
+.radio,
+.radio--label {
+	display: block;
+	position: absolute;
+	top: -5px;
+	left: 0;
+}
+
+.radio {
+	z-index: 999;
+	opacity: 0;
+}
+
+.radio:checked + .radio--label,
+.radio--label:hover {
+	color: white;
+	background: rgb(139, 139, 139);
+}
+
+.radio:active + .radio--label {
+	color: white;
+	background: rgb(99, 99, 99);
+}
+
+.radio--label {
+	font-size: 0.8rem;
+	padding: 0.4em 1em;
+	border: 1px solid black;
+	border-radius: 12px;
+	transition-duration: 0.4s;
+}
+
+.winner--x {
+	background: #4a94e8;
+}
+
+.winner--o {
+	background: #de3737;
+}
