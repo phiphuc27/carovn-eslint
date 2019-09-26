@@ -66,7 +66,7 @@ export class Game extends Component {
     });
   };
 
-  newGame() {
+  newGame = () => {
     this.resetRadioBtn();
     this.setState({
       squares: Array(BOARD_SIZE * BOARD_SIZE).fill(null),
@@ -78,7 +78,7 @@ export class Game extends Component {
       stepNumber: 0,
       xIsNext: true
     });
-  }
+  };
 
   jumpTo(step) {
     const { history } = this.state;
@@ -141,11 +141,7 @@ export class Game extends Component {
         <div className="game-info">
           <div style={{ margin: '0 0 2em 10px' }}>
             <div style={{ position: 'relative', marginBottom: '.6em' }}>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => this.newGame}
-              >
+              <button type="button" className="btn" onClick={this.newGame}>
                 New Game
               </button>
             </div>
