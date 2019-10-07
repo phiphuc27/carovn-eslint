@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function History(props) {
-  const { history, isAscending, onChange, jumpTo } = props;
+function History({ history, isAscending, onChange, jumpTo }) {
   const moves = history.map((step, move) => {
     const desc = move
       ? `${step.playedSquares[move - 1].value.toUpperCase()} move to (${step
@@ -53,3 +53,16 @@ export default function History(props) {
     </div>
   );
 }
+
+History.propTypes = {
+  history: PropTypes.arrayOf(
+    PropTypes.shape({
+      playedSquares: PropTypes.arrayOf(PropTypes.object).isRequired
+    }).isRequired
+  ).isRequired,
+  isAscending: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  jumpTo: PropTypes.func.isRequired
+};
+
+export default History;

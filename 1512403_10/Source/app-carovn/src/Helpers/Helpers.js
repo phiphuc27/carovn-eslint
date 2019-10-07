@@ -1,5 +1,3 @@
-const BOARD_SIZE = 20;
-
 //= ================================FUNCTION============================================
 function checkRow(playedSquare, board) {
   const { row, col } = playedSquare.position;
@@ -8,25 +6,22 @@ function checkRow(playedSquare, board) {
 
   let i;
 
-  const index = row * BOARD_SIZE + col;
+  const index = row * 20 + col;
   winSquares.push(index);
   for (i = 1; i < 5; i += 1) {
-    const nextIndex = index + i * BOARD_SIZE;
-    const prevIndex = index - i * BOARD_SIZE;
-    if (board[nextIndex] === value && nextIndex % BOARD_SIZE === col) {
+    const nextIndex = index + i * 20;
+    const prevIndex = index - i * 20;
+    if (board[nextIndex] === value && nextIndex % 20 === col) {
       winSquares.push(nextIndex);
     }
 
-    if (board[prevIndex] === value && prevIndex % BOARD_SIZE === col) {
+    if (board[prevIndex] === value && prevIndex % 20 === col) {
       winSquares.push(prevIndex);
     }
   }
   if (winSquares.length === 5) {
     const sort = winSquares.sort((a, b) => a - b);
-    if (
-      board[sort[0] - BOARD_SIZE] == null ||
-      board[sort[4] + BOARD_SIZE] == null
-    ) {
+    if (board[sort[0] - 20] == null || board[sort[4] + 20] == null) {
       return sort;
     }
   }
@@ -39,22 +34,16 @@ function checkColumn(playedSquare, board) {
   const winSquares = [];
   let i;
 
-  const index = row * BOARD_SIZE + col;
+  const index = row * 20 + col;
   winSquares.push(index);
   for (i = 1; i < 5; i += 1) {
     const nextIndex = index + i;
     const prevIndex = index - i;
-    if (
-      board[nextIndex] === value &&
-      Math.floor(nextIndex / BOARD_SIZE) === row
-    ) {
+    if (board[nextIndex] === value && Math.floor(nextIndex / 20) === row) {
       winSquares.push(nextIndex);
     }
 
-    if (
-      board[prevIndex] === value &&
-      Math.floor(prevIndex / BOARD_SIZE) === row
-    ) {
+    if (board[prevIndex] === value && Math.floor(prevIndex / 20) === row) {
       winSquares.push(prevIndex);
     }
   }
@@ -74,24 +63,21 @@ function checkDiagonal(playedSquare, board) {
 
   let i;
 
-  const index = row * BOARD_SIZE + col;
+  const index = row * 20 + col;
   winSquares.push(index);
   for (i = 1; i < 5; i += 1) {
-    const nextIndex = index + i + i * BOARD_SIZE;
-    const prevIndex = index - i - i * BOARD_SIZE;
-    if (board[nextIndex] === value && (nextIndex % BOARD_SIZE) - col === i) {
+    const nextIndex = index + i + i * 20;
+    const prevIndex = index - i - i * 20;
+    if (board[nextIndex] === value && (nextIndex % 20) - col === i) {
       winSquares.push(nextIndex);
     }
-    if (board[prevIndex] === value && col - (prevIndex % BOARD_SIZE) === i) {
+    if (board[prevIndex] === value && col - (prevIndex % 20) === i) {
       winSquares.push(prevIndex);
     }
   }
   if (winSquares.length === 5) {
     const sort = winSquares.sort((a, b) => a - b);
-    if (
-      board[sort[0] - 1 - BOARD_SIZE] == null ||
-      board[sort[4] + 1 + BOARD_SIZE] == null
-    ) {
+    if (board[sort[0] - 1 - 20] == null || board[sort[4] + 1 + 20] == null) {
       return sort;
     }
   }
@@ -104,24 +90,21 @@ function checkSecondDiagonal(playedSquare, board) {
   const { value } = playedSquare;
   const winSquares = [];
   let i;
-  const index = row * BOARD_SIZE + col;
+  const index = row * 20 + col;
   winSquares.push(index);
   for (i = 1; i < 5; i += 1) {
-    const nextIndex = index + i - i * BOARD_SIZE;
-    const prevIndex = index - i + i * BOARD_SIZE;
-    if (board[nextIndex] === value && (nextIndex % BOARD_SIZE) - col === i) {
+    const nextIndex = index + i - i * 20;
+    const prevIndex = index - i + i * 20;
+    if (board[nextIndex] === value && (nextIndex % 20) - col === i) {
       winSquares.push(nextIndex);
     }
-    if (board[prevIndex] === value && col - (prevIndex % BOARD_SIZE) === i) {
+    if (board[prevIndex] === value && col - (prevIndex % 20) === i) {
       winSquares.push(prevIndex);
     }
   }
   if (winSquares.length === 5) {
     const sort = winSquares.sort((a, b) => a - b);
-    if (
-      board[sort[4] - 1 + BOARD_SIZE] == null ||
-      board[sort[0] + 1 - BOARD_SIZE] == null
-    ) {
+    if (board[sort[4] - 1 + 20] == null || board[sort[0] + 1 - 20] == null) {
       return sort;
     }
   }
@@ -130,7 +113,7 @@ function checkSecondDiagonal(playedSquare, board) {
 
 function calculateWinner(playedSquares, board) {
   if (playedSquares.length === board.length) {
-    return { name: 'draw' };
+    return { name: 'draw', moves: null };
   }
   if (playedSquares.length > 0) {
     const playedSquare = playedSquares[playedSquares.length - 1];
@@ -162,7 +145,7 @@ function calculateWinner(playedSquares, board) {
       }
     }
   }
-  return null;
+  return { name: '', moves: null };
 }
 
 export default calculateWinner;
