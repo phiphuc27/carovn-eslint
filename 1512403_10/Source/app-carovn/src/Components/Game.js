@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
-import calculateWinner from './Helpers/Helpers';
+import calculateWinner from '../Helpers/Helpers';
 import './App.css';
 // eslint-disable-next-line import/no-named-as-default
-import Board from './Components/Board';
-import History from './Components/History';
+import Board from './Board';
+import History from './History';
 
 const BOARD_SIZE = 20;
 
@@ -27,34 +27,6 @@ export class Game extends Component {
 
   onClick(i) {
     this.resetRadioBtn();
-    const { history, squares, xIsNext, stepNumber } = this.state;
-    const tmpHistory = history.slice(0, stepNumber + 1);
-    const current = tmpHistory[tmpHistory.length - 1];
-    const tmpSquares = squares.slice();
-    const winner = calculateWinner(current.playedSquares, tmpSquares);
-    if (squares[i] || winner) {
-      return;
-    }
-    squares[i] = xIsNext ? 'x' : 'o';
-    const newSquare = {
-      id: i,
-      position: {
-        row: Math.floor(i / BOARD_SIZE),
-        col: i % BOARD_SIZE
-      },
-      value: squares[i]
-    };
-    this.setState({
-      history: [
-        ...tmpHistory,
-        {
-          playedSquares: [...current.playedSquares, newSquare]
-        }
-      ],
-      stepNumber: tmpHistory.length,
-      xIsNext: !xIsNext,
-      squares
-    });
   }
 
   resetRadioBtn = () => {
