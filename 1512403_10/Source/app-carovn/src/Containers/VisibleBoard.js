@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { clickSquare, checkWinner } from '../Actions';
-import Board from '../Components/Board';
+import Board from '../Components/Game/Board';
 
 export class VisibleBoard extends Component {
   onClick(i) {

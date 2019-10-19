@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FiX, FiCircle } from 'react-icons/fi';
 import { toggleSort, newGame, jumpTo } from '../Actions';
-import History from '../Components/History';
+import History from '../Components/Game/History';
 
 export class VisibleGameInfo extends Component {
   getStatus = () => {
@@ -11,9 +10,17 @@ export class VisibleGameInfo extends Component {
     let icon;
     let status;
     if ((xIsNext && winner.name === '') || winner.name === 'x') {
-      icon = <FontAwesomeIcon icon={faTimes} color="#4a94e8" size="lg" />;
+      icon = (
+        <FiX
+          style={{ color: '#de3737', fontSize: '1.5em', marginLeft: '10px' }}
+        />
+      );
     } else if ((!xIsNext && winner.name === '') || winner.name === 'o') {
-      icon = <FontAwesomeIcon icon={faCircle} color="#de3737" size="lg" />;
+      icon = (
+        <FiCircle
+          style={{ color: '#4a94e8', fontSize: '1.5em', marginLeft: '10px' }}
+        />
+      );
     }
     if (winner.name === '') {
       status = 'Next player: ';
@@ -26,7 +33,12 @@ export class VisibleGameInfo extends Component {
       }
     }
     return (
-      <p>
+      <p
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end'
+        }}
+      >
         {status} {icon}
       </p>
     );
@@ -41,7 +53,7 @@ export class VisibleGameInfo extends Component {
           <div style={{ position: 'relative', marginBottom: '.6em' }}>
             <button
               type="button"
-              className="btn"
+              className="btn btn-newgame"
               onClick={() => {
                 dispatch(newGame);
               }}
