@@ -6,8 +6,8 @@
 
 body {
   font: 14px 'Century Gothic', Futura, sans-serif;
-  margin: 20px;
   padding-top: 56px;
+  background: #f7f7f7;
 }
 
 ol,
@@ -21,12 +21,17 @@ select:focus {
 }
 
 .btn {
-  padding: 0.5em 1.2em;
+  padding: 0.5em 1.4em !important;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 8px !important;
   transition-duration: 0.4s;
 }
-
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+  color: currentColor;
+}
 /* Nav bar*/
 .navbar {
   position: fixed;
@@ -39,8 +44,8 @@ select:focus {
 }
 
 .nav-center {
-  max-width: 1180px;
-  margin: 0 auto;
+  margin: 0 5em;
+  width: 100%;
   display: flex;
 }
 
@@ -50,7 +55,7 @@ select:focus {
 }
 
 .nav-title {
-  margin-left: 5px;
+  margin: 2px 5px;
   font: 1.5rem 'Comic Sans MS';
   font-weight: bold;
   color: #ffffff;
@@ -63,6 +68,7 @@ select:focus {
 
 .nav-logo {
   background: #f7f7f7;
+  margin-top: 5px;
   width: 30px;
   height: 30px;
   border: 2px solid #1e90ff;
@@ -72,13 +78,15 @@ select:focus {
   display: flex;
   align-items: center;
   list-style-type: none;
-  margin-left: 1rem;
+  margin: 0 1rem;
 }
 
 .nav-links a {
   display: block;
   text-decoration: none;
   color: white;
+  height: 40px;
+  padding: 0.8em 0;
   margin: 0 1em;
   transition: 0.2s ease-in-out;
   outline: none;
@@ -127,6 +135,70 @@ select:focus {
 }
 /*end of navbar*/
 
+/*Home Page*/
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 56px);
+  flex-direction: column;
+}
+
+.hero {
+  display: flex;
+  margin-bottom: 5em;
+}
+
+.hero-title {
+  margin-left: 0.5em;
+  font: 9rem 'Comic Sans MS';
+  font-weight: bold;
+  color: #1e90ff;
+  transition: 0.2s ease-in-out;
+}
+
+.hero-logo {
+  background: #f7f7f7;
+  width: 200px;
+  height: 200px;
+  border: 10px solid #1e90ff;
+}
+
+.btn-group {
+  display: flex;
+  height: 40vh;
+  flex-direction: column;
+}
+
+.btn-hero {
+  margin-top: 1em;
+  text-decoration: none;
+  padding: 0.4em 0;
+  color: black;
+  font-size: 1.7rem;
+  text-align: center;
+  width: 350px;
+  height: 60px;
+  border: 3px solid #1e90ff;
+}
+
+.btn-hero:hover {
+  background: #1e90ff;
+  color: #f7f7f7;
+}
+/*end of homepage*/
+
+/*Register & Login Page*/
+.form-container {
+  background: white;
+  padding: 1.5em 1em;
+  width: 500px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+/*end of register login page*/
+
 .board-row:after {
   clear: both;
   content: '';
@@ -163,6 +235,7 @@ select:focus {
 }
 
 .game {
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   justify-content: center;
