@@ -102,6 +102,7 @@ select:focus {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .nav-account a {
   margin-left: 1em;

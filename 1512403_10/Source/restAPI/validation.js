@@ -10,8 +10,8 @@ const registerValidation = data => {
 			.max(30)
 			.required(),
 		email: Joi.string()
-			.required()
-			.email(),
+			.email()
+			.required(),
 		password: Joi.string().required(),
 		repeat_password: Joi.ref('password')
 	}).with('password', 'repeat_password');

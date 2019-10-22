@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './Pages/Home';
-import Game from './Pages/Game';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
+import Home from './Components/Home';
+import Game from './Components/Game';
+import Login from './Containers/Login';
+import Register from './Containers/Register';
 
 import Navbar from './Components/Navbar';
 

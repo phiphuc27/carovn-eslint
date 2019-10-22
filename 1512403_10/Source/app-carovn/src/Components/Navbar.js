@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo.svg';
+import AccountSection from '../Containers/navUser';
 
 export default function Navbar() {
   return (
@@ -31,14 +32,7 @@ export default function Navbar() {
           </li>
           <li />
         </ul>
-        <div className="nav-account">
-          <Link to="/user/register" className="btn btn-signup">
-            Sign Up
-          </Link>
-          <Link to="/user/login" className="btn btn-login">
-            Log In
-          </Link>
-        </div>
+        <AccountSection />
       </div>
     </nav>
   );
