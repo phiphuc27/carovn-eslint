@@ -1,0 +1,5 @@
+﻿Bước 1: Tạo Server mới với thông tin sau
+	+hostname: us-cdbr-iron-east-05.cleardb.net
+	+username: be2a50e42a7511
+	+password: ba0cae36
+Bước 2: Chạy script.

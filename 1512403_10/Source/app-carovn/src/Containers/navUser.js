@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout } from '../Actions';
 
 export class navUser extends Component {
   Logout(event) {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     event.preventDefault();
     dispatch(logout);
+    history.push('/');
   }
 
   render() {
@@ -46,4 +47,4 @@ const mapStateToProps = state => ({
   user: state.Login.user
 });
 
-export default connect(mapStateToProps)(navUser);
+export default withRouter(connect(mapStateToProps)(navUser));

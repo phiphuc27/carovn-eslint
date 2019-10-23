@@ -12,7 +12,7 @@ const allReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  let newState = state;
+  let newState = { ...state };
   if (action.type === 'LOG_OUT') newState = undefined;
   return allReducer(newState, action);
 };

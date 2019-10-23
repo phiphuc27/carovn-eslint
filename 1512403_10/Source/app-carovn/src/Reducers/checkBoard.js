@@ -1,7 +1,7 @@
 import calculateWinner from '../Helpers/Helpers';
 /* eslint-disable default-case */
 const defaultState = {
-  squares: Array(20 * 20).fill(null),
+  squares: [],
   history: [
     {
       playedSquares: []
@@ -99,7 +99,7 @@ const board = (state = defaultState, action) => {
     case 'CHECK_WINNER':
       return { ...state, winner: checkWinner };
     default:
-      return state;
+      return { ...state, squares: Array(20 * 20).fill(null) };
   }
 };
 
