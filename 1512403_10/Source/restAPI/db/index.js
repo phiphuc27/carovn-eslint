@@ -34,7 +34,7 @@ userDB.findByEmail = email => {
 };
 
 userDB.findById = id => {
-	const sql = `select * from user where _id = '${id}'`;
+	const sql = `select * from user where id = '${id}'`;
 	return new Promise((resolve, reject) => {
 		pool.query(sql, (err, result) => {
 			if (err) reject(err);
@@ -57,6 +57,36 @@ userDB.insert = user => {
 	const sql = `insert into user set ? `;
 	return new Promise((resolve, reject) => {
 		pool.query(sql, user, (err, result) => {
+			if (err) reject(err);
+			return resolve(result);
+		});
+	});
+};
+
+userDB.updatePassword = (password, id) => {
+	const sql = `update user set ? where id ='${id}' `;
+	return new Promise((resolve, reject) => {
+		pool.query(sql, password, (err, result) => {
+			if (err) reject(err);
+			return resolve(result);
+		});
+	});
+};
+
+userDB.insertProfile = profile => {
+	const sql = `insert into user_info set ? `;
+	return new Promise((resolve, reject) => {
+		pool.query(sql, profile, (err, result) => {
+			if (err) reject(err);
+			return resolve(result);
+		});
+	});
+};
+
+userDB.updateProfile = (profile, id) => {
+	const sql = `update user_info set ? where user_id ='${id}' `;
+	return new Promise((resolve, reject) => {
+		pool.query(sql, profile, (err, result) => {
 			if (err) reject(err);
 			return resolve(result);
 		});

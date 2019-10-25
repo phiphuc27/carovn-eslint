@@ -11,7 +11,8 @@ const db = require('../db');
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-	res.send('respond with a resource');
+	console.log(req.profile);
+	res.render('index', { title: req.user });
 });
 
 /* POST register user */
@@ -31,12 +32,12 @@ router.post('/register', async (req, res) => {
 
 	// create new user
 	const user = {
-		user_name: req.body.name,
 		email: req.body.email,
 		password: hashedPassword
 	};
 	try {
 		const savedUser = await db.insert(user);
+		db.insertProfile({ user_id: savedUser.insertId });
 		res.send({ userId: savedUser.insertId });
 	} catch (err) {
 		res.status(400).send(err);
