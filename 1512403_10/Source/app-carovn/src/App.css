@@ -104,10 +104,27 @@ select:focus {
   justify-content: flex-end;
   align-items: center;
 }
-.nav-account a {
+.nav-account > a {
   margin-left: 1em;
   font-weight: bold;
   text-decoration: none;
+}
+
+.nav-dropdown {
+  background: transparent !important;
+  border: transparent;
+}
+
+.nav-dropdown > img {
+  height: 24px;
+  width: 24px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.nav-dropdown:hover,
+.nav-dropdown:focus {
+  color: #1e90ff;
 }
 
 .btn-signup {
@@ -194,9 +211,28 @@ select:focus {
 .form-container {
   background: white;
   padding: 1.5em 1em;
-  width: 500px;
+  width: 520px;
   border: 1px solid black;
   border-radius: 10px;
+}
+
+.form-profile {
+  width: 800px !important;
+}
+
+.form-photo {
+  display: flex;
+  align-items: center;
+}
+
+.form-photo img {
+  height: 82px;
+}
+
+.form-modal {
+  display: flex;
+  align-items: center;
+  margin: auto;
 }
 /*end of register login page*/
 

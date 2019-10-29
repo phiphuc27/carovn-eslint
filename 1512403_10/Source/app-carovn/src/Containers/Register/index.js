@@ -18,23 +18,6 @@ export class Register extends Component {
         <div className="form-container">
           {error && <p style={{ color: 'red' }}>{error} *</p>}
           <Form onSubmit={e => this.handleEvent(e, input)}>
-            <Form.Group controlId="formBasicName">
-              <Form.Label>
-                User name <span style={{ color: 'red' }}>*</span>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                name="name"
-                onChange={e =>
-                  dispatch(inputChange(e.target.name, e.target.value))
-                }
-              />
-              <Form.Text className="text-muted">
-                User name must have 3-30 characters
-              </Form.Text>
-            </Form.Group>
-
             <Form.Group controlId="formBasicEmail">
               <Form.Label>
                 Email address <span style={{ color: 'red' }}>*</span>

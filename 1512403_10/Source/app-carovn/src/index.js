@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import reducer from './Reducers';
-import App from './App';
+import AppContainer from './Containers/AppContainer';
 
 const store = createStore(
   reducer,
@@ -24,7 +24,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <AppContainer />
     </Router>
   </Provider>,
   document.getElementById('root')

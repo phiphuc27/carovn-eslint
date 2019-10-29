@@ -3,12 +3,14 @@ import Board from './checkBoard';
 import GameInfo from './checkGameInfo';
 import Register from './register';
 import Login from './login';
+import Profile from './profile';
 
 const allReducer = combineReducers({
   Board,
   GameInfo,
   Register,
-  Login
+  Login,
+  Profile
 });
 
 const rootReducer = (state, action) => {

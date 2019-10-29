@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap';
 import { logout } from '../Actions';
 
 export class navUser extends Component {
   Logout(event) {
     const { dispatch, history } = this.props;
     event.preventDefault();
+    window.sessionStorage.removeItem('jwtToken');
     dispatch(logout);
     history.push('/');
   }
@@ -17,16 +19,20 @@ export class navUser extends Component {
       <>
         {user ? (
           <div className="nav-account">
-            <p style={{ color: 'white', fontSize: '1rem', margin: '0 1em' }}>
-              Hello, {user[0].user_name}
-            </p>
-            <button
-              type="button"
-              className="btn btn-signup"
-              onClick={e => this.Logout(e)}
-            >
-              Log Out
-            </button>
+            <Dropdown alignRight>
+              <Dropdown.Toggle className="nav-dropdown" id="dropdown-basic">
+                <img src={user.avatarURL} alt="avatar" />
+                {user.first_name} {user.last_name}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="/user/profile">Profile</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as="button" onClick={e => this.Logout(e)}>
+                  Log out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         ) : (
           <div className="nav-account">

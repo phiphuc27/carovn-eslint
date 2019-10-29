@@ -1,9 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
-import { login, inputChange } from '../../Actions';
+import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
+import {
+  login,
+  inputChange,
+  googleLogin,
+  errorLogin,
+  getLoginUser
+} from '../../Actions';
 
 export class Login extends Component {
+  responseGoogle = response => {
+    const { dispatch } = this.props;
+    dispatch(googleLogin(response)).then(res => {
+      console.log(res);
+      const { payload } = res;
+      const { data, status } = payload;
+      const { token } = data;
+      if (status !== 200) {
+        dispatch(errorLogin(payload));
+      } else {
+        window.sessionStorage.setItem('jwtToken', token);
+      }
+      dispatch(getLoginUser(token));
+    });
+  };
+
+  responseFacebook = response => {
+    console.log(response);
+  };
+
   handleEvent(event, data) {
     const { dispatch } = this.props;
     event.preventDefault();
@@ -43,6 +71,28 @@ export class Login extends Component {
                 value={input.password}
               />
             </Form.Group>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '10px 0'
+              }}
+            >
+              <GoogleLogin
+                clientId="652654063583-rnnfk9bpiv5sf5b72td6k4e0s0dlvjh5.apps.googleusercontent.com"
+                buttonText="LOGIN WITH GOOGLE"
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                cookiePolicy="single_host_origin"
+              />
+              <FacebookLogin
+                appId="536717120424233"
+                autoLoad={false}
+                fields="id,name,email,picture"
+                callback={this.responseFacebook}
+                icon="fa-facebook"
+              />
+            </div>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {isFetching ? (

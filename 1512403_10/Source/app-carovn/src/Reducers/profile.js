@@ -1,20 +1,31 @@
-const registerState = {
+const profileState = {
   input: {
+    avatarURL: '',
     email: '',
-    password: '',
-    repeat_password: ''
+    first_name: '',
+    last_name: '',
+    birth_day: '',
+    gender: '',
+    password: ''
   },
+  modalShow: Array(2).fill(false),
   fetching: false,
   fetched: false,
   error: ''
 };
 
-const accountRegister = (state = registerState, action) => {
+const accountProfile = (state = profileState, action) => {
   switch (action.type) {
-    case 'INPUT_CHANGE': {
+    case 'SET_PASSWORD_SHOW': {
       return {
         ...state,
-        input: { ...state.input, [action.name]: action.value }
+        modalShow: [action.value, false]
+      };
+    }
+    case 'SET_PHOTO_SHOW': {
+      return {
+        ...state,
+        modalShow: [false, action.value]
       };
     }
     case 'REGISTER_START': {
@@ -43,4 +54,4 @@ const accountRegister = (state = registerState, action) => {
   }
 };
 
-export default accountRegister;
+export default accountProfile;

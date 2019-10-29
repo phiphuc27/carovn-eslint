@@ -6,7 +6,6 @@ const loginState = {
   fetching: false,
   fetched: false,
   error: '',
-  token: '',
   user: ''
 };
 
@@ -38,7 +37,6 @@ const accountManagement = (state = loginState, action) => {
         fetching: false,
         fetched: true,
         error: null,
-        token: action.token,
         user: action.user
       };
     }
@@ -47,6 +45,14 @@ const accountManagement = (state = loginState, action) => {
       return { ...state, fetching: false, fetched: false, error: action.error };
     }
 
+    case 'RESET_TOKEN': {
+      return {
+        ...state,
+        user: '',
+        error: '',
+        fetching: false
+      };
+    }
     default:
       return state;
   }
