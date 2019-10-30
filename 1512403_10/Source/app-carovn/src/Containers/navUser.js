@@ -26,7 +26,9 @@ export class navUser extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="/user/profile">Profile</Dropdown.Item>
+                <Link to="/user/profile" className="dropdown-item">
+                  Profile
+                </Link>
                 <Dropdown.Divider />
                 <Dropdown.Item as="button" onClick={e => this.Logout(e)}>
                   Log out

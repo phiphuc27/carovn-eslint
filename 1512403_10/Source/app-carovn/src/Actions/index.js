@@ -158,7 +158,6 @@ export const facebookLogin = data => {
       data: userData
     })
       .then(response => {
-        console.log(response);
         window.sessionStorage.setItem('jwtToken', response.data.token);
         dispatch(getLoginUser(response.data.token));
       })
@@ -173,6 +172,19 @@ export const logout = {
   type: 'LOG_OUT'
 };
 
+/* Profile */
+export const userChange = (name, value) => ({
+  type: 'USER_CHANGE',
+  name,
+  value
+});
+
+export const passwordChange = (name, value) => ({
+  type: 'PASSWORD_CHANGE',
+  name,
+  value
+});
+
 export const setPasswordShow = value => ({
   type: 'SET_PASSWORD_SHOW',
   value
@@ -182,3 +194,77 @@ export const setPhotoShow = value => ({
   type: 'SET_PHOTO_SHOW',
   value
 });
+
+export const editToggle = value => ({
+  type: 'EDIT_TOGGLE',
+  value
+});
+
+export const startEdit = {
+  type: 'EDIT_START'
+};
+
+export const errorProfileEdit = error => ({
+  type: 'EDIT_PROFILE_ERROR',
+  error
+});
+
+export const errorPasswordEdit = error => ({
+  type: 'EDIT_PASSWORD_ERROR',
+  error
+});
+
+export const errorPhotoEdit = error => ({
+  type: 'EDIT_PHOTO_ERROR',
+  error
+});
+
+export const editProfile = profile => {
+  return dispatch => {
+    dispatch(startEdit);
+    const token = window.sessionStorage.getItem('jwtToken');
+    const userProfile = {
+      first_name: profile.first_name,
+      last_name: profile.last_name,
+      gender: profile.gender,
+      birth_day: profile.birth_day
+    };
+    axios({
+      method: 'post',
+      url: 'https://radiant-hamlet-02403.herokuapp.com/user/profile',
+      data: userProfile,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.statusText === 'OK') dispatch(getLoginUser(token));
+      })
+      .catch(err => {
+        dispatch(errorProfileEdit(err));
+      });
+  };
+};
+
+export const editPassword = password => {
+  return dispatch => {
+    dispatch(startEdit);
+    const token = window.sessionStorage.getItem('jwtToken');
+    axios({
+      method: 'post',
+      url:
+        'https://radiant-hamlet-02403.herokuapp.com/user/profile/changePassword',
+      data: password,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.statusText === 'OK') dispatch(getLoginUser(token));
+      })
+      .catch(err => {
+        dispatch(errorPasswordEdit(err.response.data));
+      });
+  };
+};
+/* end of profile */

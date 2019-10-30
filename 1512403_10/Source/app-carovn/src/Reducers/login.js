@@ -11,6 +11,13 @@ const loginState = {
 
 const accountManagement = (state = loginState, action) => {
   switch (action.type) {
+    case 'USER_CHANGE': {
+      return {
+        ...state,
+        user: { ...state.user, [action.name]: action.value }
+      };
+    }
+
     case 'INPUT_CHANGE': {
       return {
         ...state,

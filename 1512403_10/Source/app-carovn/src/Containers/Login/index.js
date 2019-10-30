@@ -15,7 +15,6 @@ export class Login extends Component {
   responseGoogle = response => {
     const { dispatch } = this.props;
     dispatch(googleLogin(response)).then(res => {
-      console.log(res);
       const { payload } = res;
       const { data, status } = payload;
       const { token } = data;
