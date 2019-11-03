@@ -111,35 +111,36 @@ function checkSecondDiagonal(playedSquare, board) {
   return null;
 }
 
-function calculateWinner(playedSquares, board) {
+function calculateWinner(playedSquares, board, player) {
   if (playedSquares.length === board.length) {
     return { name: 'draw', moves: null };
   }
-  if (playedSquares.length > 0) {
-    const playedSquare = playedSquares[playedSquares.length - 1];
-
+  console.log(playedSquares, board, player);
+  const playerSquares = playedSquares.filter(square => square.value === player);
+  if (playerSquares.length > 0) {
+    const playedSquare = playerSquares[playerSquares.length - 1];
     if (playedSquare !== null) {
       if (checkRow(playedSquare, board)) {
         return {
-          name: playedSquare.value,
+          name: player,
           moves: checkRow(playedSquare, board)
         };
       }
       if (checkColumn(playedSquare, board)) {
         return {
-          name: playedSquare.value,
+          name: player,
           moves: checkColumn(playedSquare, board)
         };
       }
       if (checkDiagonal(playedSquare, board)) {
         return {
-          name: playedSquare.value,
+          name: player,
           moves: checkDiagonal(playedSquare, board)
         };
       }
       if (checkSecondDiagonal(playedSquare, board)) {
         return {
-          name: playedSquare.value,
+          name: player,
           moves: checkSecondDiagonal(playedSquare, board)
         };
       }

@@ -18,13 +18,9 @@ export default function Navbar() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/game">Player vs Player</Link>
+            <Link to="/game">Player vs Computer</Link>
           </li>
-          <li>
-            <Link to="/game" className="disabled">
-              Player vs Computer
-            </Link>
-          </li>
+
           <li>
             <Link to="/game" className="disabled">
               Play Online

@@ -5,11 +5,11 @@ import { clickSquare, checkWinner } from '../Actions';
 import Board from '../Components/Game/Board';
 
 export class VisibleBoard extends Component {
-  onClick(i) {
+  onClick = i => {
     const { dispatch } = this.props;
     dispatch(clickSquare(i));
     dispatch(checkWinner);
-  }
+  };
 
   render() {
     const { squares, winner } = this.props;
@@ -28,6 +28,7 @@ export class VisibleBoard extends Component {
 
 const mapStateToProps = state => ({
   squares: state.Board.squares,
+  bestSquare: state.Board.bestSquare,
   xIsNext: state.Board.xIsNext,
   winner: state.Board.winner
 });

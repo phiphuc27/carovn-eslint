@@ -11,9 +11,6 @@ export default function Home() {
       </div>
       <div className="btn-group">
         <Link to="/game" className="btn btn-hero">
-          Player vs Player
-        </Link>
-        <Link to="/game" className="btn btn-hero disabled">
           Player vs Computer
         </Link>
         <Link to="/game" className="btn btn-hero disabled">

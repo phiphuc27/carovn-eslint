@@ -4,7 +4,7 @@ const profileState = {
   fetching: false,
   fetched: false,
   passwordInput: {
-    current_password: '',
+    old_password: '',
     new_password: '',
     confirm_password: ''
   },
@@ -56,11 +56,24 @@ const accountProfile = (state = profileState, action) => {
       };
     }
 
-    case 'LOGIN_SUCCESS': {
+    case 'EDIT_SUCCESS': {
       return {
         ...state,
         fetching: false,
         fetched: true,
+        error: {
+          password: '',
+          profile: '',
+          photo: ''
+        }
+      };
+    }
+
+    case 'LOGIN_SUCCESS': {
+      return {
+        ...state,
+        fetching: false,
+        fetched: false,
         error: {
           password: '',
           profile: '',

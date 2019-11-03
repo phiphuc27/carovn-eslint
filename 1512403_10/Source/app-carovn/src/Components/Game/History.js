@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function History({ history, isAscending, onChange, jumpTo }) {
-  const moves = history.map((step, move) => {
+  const moves = history.map((step,move) => {
+    const xMove = step.playedSquares.length;
     const desc = move
-      ? `${step.playedSquares[move - 1].value.toUpperCase()} move to (${step
-          .playedSquares[move - 1].position.row + 1},
-            ${step.playedSquares[move - 1].position.col + 1})`
+      ? `${step.playedSquares[xMove - 2].value.toUpperCase()} move to (${step
+          .playedSquares[xMove - 2].position.row + 1},
+            ${step.playedSquares[xMove - 2].position.col + 1})`
       : 'Go to game start';
     return (
       // eslint-disable-next-line react/no-array-index-key
@@ -33,15 +34,17 @@ function History({ history, isAscending, onChange, jumpTo }) {
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around',
           marginBottom: '.5em'
         }}
       >
         <div className="status">Past Moves</div>
         <select
           onChange={onChange}
-          style={{ padding: '.2em .4em', borderRadius: '5px' }}
+          style={{
+            padding: '.2em .4em',
+            borderRadius: '5px',
+            marginLeft: '10px'
+          }}
         >
           <option value="0">Ascending</option>
           <option value="1">Descending</option>

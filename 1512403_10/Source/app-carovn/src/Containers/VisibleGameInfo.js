@@ -45,12 +45,12 @@ export class VisibleGameInfo extends Component {
   };
 
   render() {
-    const { history, isAscending, dispatch } = this.props;
+    const { history, isAscending, dispatch, stepNumber } = this.props;
     const status = this.getStatus();
     return (
       <div className="game-info">
-        <div style={{ margin: '0 0 2em 10px' }}>
-          <div style={{ position: 'relative', marginBottom: '.6em' }}>
+        <div style={{ marginBottom: '1em' }}>
+          <div style={{ marginBottom: '.6em' }}>
             <button
               type="button"
               className="btn btn-newgame"
@@ -60,6 +60,34 @@ export class VisibleGameInfo extends Component {
             >
               New Game
             </button>
+            <div>
+              <button
+                type="button"
+                className={
+                  stepNumber > 0
+                    ? 'btn btn-newgame'
+                    : 'btn btn-newgame disabled'
+                }
+                onClick={() => {
+                  dispatch(jumpTo(stepNumber - 1));
+                }}
+              >
+                Undo
+              </button>
+              <button
+                type="button"
+                className={
+                  stepNumber < history.length - 1
+                    ? 'btn btn-newgame'
+                    : 'btn btn-newgame disabled'
+                }
+                onClick={() => {
+                  dispatch(jumpTo(stepNumber + 1));
+                }}
+              >
+                Redo
+              </button>
+            </div>
           </div>
           <div className="status">{status}</div>
         </div>
@@ -80,7 +108,8 @@ const mapStateToProps = state => ({
   history: state.Board.history,
   isAscending: state.GameInfo.isAscending,
   xIsNext: state.Board.xIsNext,
-  winner: state.Board.winner
+  winner: state.Board.winner,
+  stepNumber: state.Board.stepNumber
 });
 
 export default connect(mapStateToProps)(VisibleGameInfo);

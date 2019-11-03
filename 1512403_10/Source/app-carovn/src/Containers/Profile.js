@@ -11,9 +11,11 @@ import {
   editToggle,
   editProfile,
   editPassword,
+  uploadPhoto,
   userChange,
   passwordChange
 } from '../Actions';
+import FileUpload from '../Components/FileUploadModal';
 
 export class Profile extends Component {
   handleDateChange = date => {
@@ -31,6 +33,14 @@ export class Profile extends Component {
     e.preventDefault();
     const { dispatch } = this.props;
     dispatch(editPassword(password));
+  };
+
+  handlePhotoChange = (e, file) => {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const formData = new FormData();
+    formData.append('file', file);
+    dispatch(uploadPhoto(formData));
   };
 
   render() {
@@ -91,7 +101,7 @@ export class Profile extends Component {
               </Col>
             </Form.Group>
             <hr />
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextFirstName">
               <Form.Label column sm="4">
                 First Name
               </Form.Label>
@@ -111,7 +121,7 @@ export class Profile extends Component {
               </Col>
             </Form.Group>
             <hr />
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextLastName">
               <Form.Label column sm="4">
                 Last Name
               </Form.Label>
@@ -131,7 +141,7 @@ export class Profile extends Component {
               </Col>
             </Form.Group>
             <hr />
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextBirthDay">
               <Form.Label column sm="4">
                 Birth Day
               </Form.Label>
@@ -143,19 +153,19 @@ export class Profile extends Component {
                     placeholderText="dd/MM/yyyy"
                     dateFormat="dd/MM/yyyy"
                     selected={
-                      user.birthday
+                      user.birth_day
                         ? moment(user.birth_day).toDate()
                         : moment().toDate()
                     }
                     onChange={this.handleDateChange}
                   />
                 ) : (
-                  <h5>{user.birthday}</h5>
+                  <h5>{moment(user.birth_day).format('DD/MM/YYYY')}</h5>
                 )}
               </Col>
             </Form.Group>
             <hr />
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextGender">
               <Form.Label column sm="4">
                 Gender
               </Form.Label>
@@ -164,7 +174,6 @@ export class Profile extends Component {
                   <Form.Control
                     as="select"
                     value={user.gender ? user.gender : 'default'}
-                    defaultValue="default"
                     onChange={e => {
                       dispatch(userChange('gender', e.target.value));
                     }}
@@ -180,7 +189,7 @@ export class Profile extends Component {
               </Col>
             </Form.Group>
             <hr />
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextPassword">
               <Form.Label column sm="4">
                 Password
               </Form.Label>
@@ -285,15 +294,15 @@ export class Profile extends Component {
               )}
               <Form>
                 {user.password && (
-                  <Form.Group as={Row} controlId="formPlaintextEmail">
+                  <Form.Group as={Row} controlId="formOldPassword">
                     <Form.Label column sm="5">
                       Current Password:
                     </Form.Label>
                     <Col sm="7">
                       <Form.Control
                         type="password"
-                        name="current_password"
-                        value={passwordInput.current_password}
+                        name="old_password"
+                        value={passwordInput.old_password}
                         onChange={e => {
                           dispatch(
                             passwordChange(e.target.name, e.target.value)
@@ -304,7 +313,7 @@ export class Profile extends Component {
                     </Col>
                   </Form.Group>
                 )}
-                <Form.Group as={Row} controlId="formPlaintextEmail">
+                <Form.Group as={Row} controlId="formNewPassword">
                   <Form.Label column sm="5">
                     New Password:
                   </Form.Label>
@@ -320,7 +329,7 @@ export class Profile extends Component {
                     />
                   </Col>
                 </Form.Group>
-                <Form.Group as={Row} controlId="formPlaintextEmail">
+                <Form.Group as={Row} controlId="formConfirmPassword">
                   <Form.Label column sm="5">
                     Confirm New Password:
                   </Form.Label>
@@ -339,72 +348,61 @@ export class Profile extends Component {
               </Form>
             </Modal.Body>
             <Modal.Footer>
+              {fetched && (
+                <p
+                  style={{
+                    color: 'green',
+                    fontWeight: 'bold',
+                    marginLeft: '10px',
+                    fontSize: '1.2rem'
+                  }}
+                >
+                  Edit photo success!
+                </p>
+              )}
               <Button
                 variant="secondary"
-                type="button"
                 onClick={() => {
                   dispatch(setPasswordShow(false));
                 }}
               >
                 Cancel
               </Button>
-              <Button
-                variant="primary"
-                type="button"
-                onClick={e => this.handlePasswordChange(e, passwordInput)}
-              >
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-        <div>
-          <Modal
-            centered
-            show={isPhotoModalShow}
-            onHide={() => {
-              dispatch(setPhotoShow(false));
-            }}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Change Photo</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group
-                  as={Row}
-                  className="form-modal"
-                  controlId="formPlaintextEmail"
+              {fetching ? (
+                <Button
+                  className="disabled"
+                  variant="primary"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
                 >
-                  <Form.Label column sm="5">
-                    PhotoURL:
-                  </Form.Label>
-                  <Col sm="7">
-                    <Form.Control type="file" />
-                  </Col>
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  dispatch(setPhotoShow(false));
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  dispatch(setPhotoShow(false));
-                }}
-              >
-                Save Changes
-              </Button>
+                  <Spinner
+                    animation="border"
+                    variant="light"
+                    size="sm"
+                    style={{ marginRight: '10px' }}
+                  />
+                  Loading...
+                </Button>
+              ) : (
+                <Button variant="primary" type="submit">
+                  Save Change
+                </Button>
+              )}
             </Modal.Footer>
           </Modal>
         </div>
+        <FileUpload
+          show={isPhotoModalShow}
+          isFetching={fetching}
+          isFetched={fetched}
+          error={error}
+          onHide={() => {
+            dispatch(setPhotoShow(false));
+          }}
+          onSubmit={(e, file) => this.handlePhotoChange(e, file)}
+        />
       </div>
     );
   }

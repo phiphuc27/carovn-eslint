@@ -1,19 +1,24 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-/* eslint-disable import/prefer-default-export */
+
 export const clickSquare = index => ({
   type: 'CLICK_SQUARE',
   index
+});
+
+export const checkWinner = {
+  type: 'CHECK_WINNER'
+};
+
+export const getBestSquare = squares => ({
+  type: 'GET_BEST_SQUARE',
+  squares
 });
 
 export const jumpTo = step => ({
   type: 'JUMP_TO',
   step
 });
-
-export const checkWinner = {
-  type: 'CHECK_WINNER'
-};
 
 export const newGame = {
   type: 'NEW_GAME'
@@ -124,7 +129,7 @@ export const googleLogin = data => {
   return async dispatch => {
     await dispatch(startLogin);
     const userData = {
-      googleID: data.El,
+      googleId: data.El,
       email: data.profileObj.email,
       familyName: data.profileObj.familyName,
       givenName: data.profileObj.givenName,
@@ -146,24 +151,19 @@ export const facebookLogin = data => {
   return async dispatch => {
     await dispatch(startLogin);
     const userData = {
-      googleID: data.El,
-      email: data.profileObj.email,
-      familyName: data.profileObj.familyName,
-      givenName: data.profileObj.givenName,
-      photoURL: data.profileObj.imageUrl
+      email: data.email,
+      name: data.name,
+      photoURL: data.picture.data.url
     };
-    await axios({
-      method: 'get',
-      url: 'https://radiant-hamlet-02403.herokuapp.com/auth/facebook',
+    const request = await axios({
+      method: 'post',
+      url: 'https://radiant-hamlet-02403.herokuapp.com/user/facebook',
       data: userData
-    })
-      .then(response => {
-        window.sessionStorage.setItem('jwtToken', response.data.token);
-        dispatch(getLoginUser(response.data.token));
-      })
-      .catch(err => {
-        dispatch(errorLogin(err.response.data));
-      });
+    });
+    return {
+      type: 'SIGN_UP',
+      payload: request
+    };
   };
 };
 /* end of login */
@@ -204,6 +204,10 @@ export const startEdit = {
   type: 'EDIT_START'
 };
 
+export const successEdit = {
+  type: 'EDIT_SUCCESS'
+};
+
 export const errorProfileEdit = error => ({
   type: 'EDIT_PROFILE_ERROR',
   error
@@ -237,8 +241,13 @@ export const editProfile = profile => {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => {
-        if (response.statusText === 'OK') dispatch(getLoginUser(token));
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          await dispatch(successEdit);
+          setTimeout(() => {
+            dispatch(getLoginUser(token));
+          }, 2000);
+        }
       })
       .catch(err => {
         dispatch(errorProfileEdit(err));
@@ -259,11 +268,59 @@ export const editPassword = password => {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => {
-        if (response.statusText === 'OK') dispatch(getLoginUser(token));
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          await dispatch(successEdit);
+          setTimeout(() => {
+            dispatch(getLoginUser(token));
+          }, 2000);
+        }
       })
       .catch(err => {
         dispatch(errorPasswordEdit(err.response.data));
+      });
+  };
+};
+
+export const editPhoto = data => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+    await axios({
+      method: 'post',
+      url:
+        'https://radiant-hamlet-02403.herokuapp.com/user/profile/changePhoto',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          await dispatch(successEdit);
+          setTimeout(() => {
+            dispatch(getLoginUser(token));
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        dispatch(errorPhotoEdit(err.response.data));
+      });
+  };
+};
+
+export const uploadPhoto = photo => {
+  return async dispatch => {
+    dispatch(startEdit);
+    await axios
+      .post(
+        'https://us-central1-carovn-v2.cloudfunctions.net/uploadFile',
+        photo
+      )
+      .then(response => {
+        dispatch(editPhoto(response.data));
+      })
+      .catch(err => {
+        dispatch(errorPhotoEdit(err));
       });
   };
 };

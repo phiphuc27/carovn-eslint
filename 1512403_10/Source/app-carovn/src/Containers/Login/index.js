@@ -7,6 +7,7 @@ import {
   login,
   inputChange,
   googleLogin,
+  facebookLogin,
   errorLogin,
   getLoginUser
 } from '../../Actions';
@@ -28,7 +29,18 @@ export class Login extends Component {
   };
 
   responseFacebook = response => {
-    console.log(response);
+    const { dispatch } = this.props;
+    dispatch(facebookLogin(response)).then(res => {
+      const { payload } = res;
+      const { data, status } = payload;
+      const { token } = data;
+      if (status !== 200) {
+        dispatch(errorLogin(payload));
+      } else {
+        window.sessionStorage.setItem('jwtToken', token);
+      }
+      dispatch(getLoginUser(token));
+    });
   };
 
   handleEvent(event, data) {
