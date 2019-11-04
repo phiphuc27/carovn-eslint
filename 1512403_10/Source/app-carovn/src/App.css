@@ -333,3 +333,32 @@ select:focus {
 .winner--o {
   background: #4a94e8;
 }
+
+/* ONLINE SECTION */
+.online-container {
+  border: 2px solid black;
+  padding: 2.5em 1em;
+  border-radius: 10px;
+  background: white;
+}
+
+.online-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.online-player > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+.online-player > h4 {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+/* end of online section */

@@ -151,7 +151,7 @@ export class Login extends Component {
 const mapStateToProps = state => ({
   input: state.Login.input,
   isFetching: state.Login.fetching,
-  isFetched: state.Login.fetched,
+  isFetched: state.Login.loggedIn,
   error: state.Login.error
 });
 

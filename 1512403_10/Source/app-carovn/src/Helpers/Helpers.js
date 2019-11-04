@@ -115,7 +115,6 @@ function calculateWinner(playedSquares, board, player) {
   if (playedSquares.length === board.length) {
     return { name: 'draw', moves: null };
   }
-  console.log(playedSquares, board, player);
   const playerSquares = playedSquares.filter(square => square.value === player);
   if (playerSquares.length > 0) {
     const playedSquare = playerSquares[playerSquares.length - 1];

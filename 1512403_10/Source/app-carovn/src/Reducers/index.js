@@ -4,9 +4,11 @@ import GameInfo from './checkGameInfo';
 import Register from './register';
 import Login from './login';
 import Profile from './profile';
+import Online from './checkOnline';
 
 const allReducer = combineReducers({
   Board,
+  Online,
   GameInfo,
   Register,
   Login,

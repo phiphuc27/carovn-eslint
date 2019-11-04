@@ -13,7 +13,7 @@ export default function Home() {
         <Link to="/game" className="btn btn-hero">
           Player vs Computer
         </Link>
-        <Link to="/game" className="btn btn-hero disabled">
+        <Link to="/game/online" className="btn btn-hero">
           Play Online
         </Link>
       </div>

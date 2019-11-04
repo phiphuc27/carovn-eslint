@@ -88,7 +88,7 @@ const board = (state = defaultState, action) => {
       ];
 
       if (checkXWinner.name !== 'draw') {
-        tmpBestSquare = getBestSquare(squares, currentSquares);
+        tmpBestSquare = getBestSquare(squares);
 
         squares[tmpBestSquare] = computer;
         currentSquares = [

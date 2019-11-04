@@ -22,9 +22,7 @@ export default function Navbar() {
           </li>
 
           <li>
-            <Link to="/game" className="disabled">
-              Play Online
-            </Link>
+            <Link to="/game/online">Play Online</Link>
           </li>
           <li />
         </ul>

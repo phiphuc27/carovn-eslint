@@ -4,7 +4,7 @@ const loginState = {
     password: ''
   },
   fetching: false,
-  fetched: false,
+  loggedIn: false,
   error: '',
   user: ''
 };
@@ -33,7 +33,7 @@ const accountManagement = (state = loginState, action) => {
           password: ''
         },
         fetching: true,
-        fetched: false,
+        loggedIn: false,
         error: ''
       };
     }
@@ -42,14 +42,19 @@ const accountManagement = (state = loginState, action) => {
       return {
         ...state,
         fetching: false,
-        fetched: true,
+        loggedIn: true,
         error: null,
         user: action.user
       };
     }
 
     case 'LOGIN_ERROR': {
-      return { ...state, fetching: false, fetched: false, error: action.error };
+      return {
+        ...state,
+        fetching: false,
+        loggedIn: false,
+        error: action.error
+      };
     }
 
     case 'RESET_TOKEN': {

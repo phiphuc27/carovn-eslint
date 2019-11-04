@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Home from './Components/Home';
 import Game from './Components/Game';
+import OnlineGame from './Containers/OnlineContainer';
 import Login from './Containers/Login';
 import Register from './Containers/Register';
 import Profile from './Containers/Profile';
@@ -26,6 +27,9 @@ export default class App extends Component {
           </Route>
           <Route exact path="/game">
             <Game />
+          </Route>
+          <Route exact path="/game/online">
+            <OnlineGame />
           </Route>
           <Route exact path="/user/register">
             <Register />

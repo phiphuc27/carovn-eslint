@@ -90,6 +90,7 @@ export function resetToken() {
 
 export const getLoginUser = token => {
   return dispatch => {
+    dispatch(startLogin);
     axios({
       method: 'get',
       url: 'https://radiant-hamlet-02403.herokuapp.com/me',
@@ -325,3 +326,27 @@ export const uploadPhoto = photo => {
   };
 };
 /* end of profile */
+
+/* Online Action */
+
+export const setRoomId = id => ({
+  type: 'SET_ROOM',
+  id
+});
+
+export const toggleCreateModal = {
+  type: 'TOGGLE_CREATE_MODAL'
+};
+
+export const toggleJoinModal = {
+  type: 'TOGGLE_JOIN_MODAL'
+};
+
+export const toggleCreateRoom = {
+  type: 'TOGGLE_CREATE_ROOM'
+};
+
+export const togglePlayingStatus = {
+  type: 'TOGGLE_PLAYING'
+};
+/* end of online action */
