@@ -1,9 +1,0 @@
-﻿- Sử dụng React Router để tạo route cho các trang đăng ký, đăng nhập, trang chủ: 2 điểm.
-- Chọn một thư viện làm giao điện (React Bootstrap, Ant Design, Material UI) để tạo giao diện cho các trang
-	 Đăng ký, Đăng nhập, Trang chủ (hiển thị tên người dùng khi đã đăng nhập, kèm nút Đăng xuất): 3 điểm.
-- Sử dụng Redux thunk để tạo và gọi các thunk action khi đăng ký, đăng nhập, đăng xuất: 3 điểm
-- Commit & push quá trình làm việc lên Git: 1 điểm
-	Git: https://github.com/phiphuc27/carovn-eslint
-- Đăng tải lên host thực tế: 1 điểm.
-	Host react: https://carovn-v2.firebaseapp.com/
-	Host api: https://radiant-hamlet-02403.herokuapp.com/
