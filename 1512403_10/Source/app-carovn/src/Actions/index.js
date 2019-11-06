@@ -10,11 +10,6 @@ export const checkWinner = {
   type: 'CHECK_WINNER'
 };
 
-export const getBestSquare = squares => ({
-  type: 'GET_BEST_SQUARE',
-  squares
-});
-
 export const jumpTo = step => ({
   type: 'JUMP_TO',
   step
@@ -334,10 +329,6 @@ export const setRoomId = id => ({
   id
 });
 
-export const toggleCreateModal = {
-  type: 'TOGGLE_CREATE_MODAL'
-};
-
 export const toggleJoinModal = {
   type: 'TOGGLE_JOIN_MODAL'
 };
@@ -346,7 +337,70 @@ export const toggleCreateRoom = {
   type: 'TOGGLE_CREATE_ROOM'
 };
 
+export const toggleSurrenderModal = {
+  type: 'TOGGLE_SURRENDER_MODAL'
+};
+
+export const toggleDrawModal = {
+  type: 'TOGGLE_DRAW_MODAL'
+};
+
+export const toggleNewGameModal = {
+  type: 'TOGGLE_NEW_GAME_MODAL'
+};
+
 export const togglePlayingStatus = {
   type: 'TOGGLE_PLAYING'
 };
+
+export const setPlayer = name => ({
+  type: 'SET_PLAYER',
+  name
+});
+
+export const setOpponent = name => ({
+  type: 'SET_OPPONENT',
+  name
+});
+
+export const setMessage = message => ({
+  type: 'SET_MESSAGE',
+  message
+});
+
+export const setChatMessage = message => ({
+  type: 'SET_CHAT_MESSAGE',
+  message
+});
+
+export const addChatMessage = message => ({
+  type: 'ADD_CHAT_MESSAGE',
+  message
+});
+
+export const setWinner = name => ({
+  type: 'SET_WINNER',
+  name
+});
+
+export const reduceUndo = {
+  type: 'REDUCE_NUM_UNDO'
+};
+
+export const reduceOpponentUndo = num => ({
+  type: 'REDUCE_OPPONENT_UNDO',
+  num
+});
+
+export const clickSquareOnline = (index, player) => ({
+  type: 'CLICK_SQUARE_ONLINE',
+  index,
+  player
+});
+
+export const increaseScore = score => ({
+  type: 'INCREASE_SCORE',
+  score
+});
+
 /* end of online action */

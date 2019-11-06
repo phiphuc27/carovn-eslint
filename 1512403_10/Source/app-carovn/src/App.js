@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Home from './Components/Home';
 import Game from './Components/Game';
-import OnlineGame from './Containers/OnlineContainer';
+import OnlineGame from "./Containers/Online/OnlineContainer";
 import Login from './Containers/Login';
 import Register from './Containers/Register';
 import Profile from './Containers/Profile';

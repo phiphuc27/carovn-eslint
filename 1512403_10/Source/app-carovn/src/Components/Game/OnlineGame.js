@@ -1,15 +1,85 @@
 import React, { Component } from 'react';
 import { Modal, Button, Container, Row, Form, Spinner } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import io from 'socket.io-client';
-import shortid from 'shortid';
+import socket from '../../socket';
+
+import OnlineBoard from '../../Containers/Online/VisibleOnlineBoard';
+import OnlineInfo from '../../Containers/Online/VisibleOnlineInfo';
 // eslint-disable-next-line import/no-named-as-default
 
 export class OnlineGame extends Component {
   componentWillMount() {
-    const { endpoint } = this.props;
-    const socket = io(endpoint);
+    const {
+      toggleCreateRoom,
+      togglePlayingStatus,
+      toggleJoinModal,
+      createBoard,
+      setRoomId,
+      setPlayer,
+      setOpponent,
+      clickSquareOnline,
+      checkWinner
+    } = this.props;
+    socket.on('newGame', ({ room }) => {
+      setRoomId(room);
+      toggleCreateRoom();
+      createBoard();
+    });
+    socket.on('player1', ({ opponent }) => {
+      setPlayer('x');
+      toggleCreateRoom();
+      togglePlayingStatus();
+      setOpponent(opponent);
+      socket.emit('sendInfoPlayer1', {
+        user: this.user,
+        roomId: this.roomId
+      });
+    });
+
+    socket.on('player2', ({ opponent, room }) => {
+      setPlayer('o');
+      setRoomId(room);
+      setOpponent(opponent);
+      toggleJoinModal();
+      togglePlayingStatus();
+    });
+
+    socket.on('turnPlayed', ({ square, player }) => {
+      clickSquareOnline(square, player.name);
+      checkWinner();
+    });
   }
+
+  handleCreateGame = e => {
+    e.preventDefault();
+    const { user, undoMax, player } = this.props;
+    const userInfo = {
+      name: `${user.first_name} ${user.last_name}`,
+      avatar: user.avatarURL,
+      undoMax,
+      score: player.score
+    };
+    socket.emit('createGame', { user: userInfo });
+  };
+
+  handleJoinGame = e => {
+    e.preventDefault();
+    const { user, roomId, undoMax, player } = this.props;
+    const userInfo = {
+      name: `${user.first_name} ${user.last_name}`,
+      avatar: user.avatarURL,
+      undoMax,
+      score: player.score
+    };
+    socket.emit('joinGame', { user: userInfo, roomId });
+  };
+
+  onClickSquare = i => {
+    const { clickSquareOnline, checkWinner, player, roomId } = this.props;
+    clickSquareOnline(i, player.name);
+    checkWinner();
+    socket.emit('playTurn', { square: i, roomId, player });
+  };
 
   render() {
     const {
@@ -19,10 +89,10 @@ export class OnlineGame extends Component {
       user,
       roomId,
       setRoomId,
-      isCreateModal,
-      isJoinModal,
       isCreateRoom,
-      toggleCreateModal,
+      isJoinModal,
+      isPlaying,
+      toggleCreateRoom,
       toggleJoinModal
     } = this.props;
     return (
@@ -44,7 +114,7 @@ export class OnlineGame extends Component {
           </div>
         ) : (
           <div>
-            {isLoggedIn && !isCreateRoom && (
+            {isLoggedIn && !isCreateRoom && !isPlaying && (
               <Container>
                 <Row>
                   <h2>Online Lobby</h2>
@@ -62,7 +132,7 @@ export class OnlineGame extends Component {
                         size="lg"
                         block
                         variant="primary"
-                        onClick={toggleCreateModal}
+                        onClick={this.handleCreateGame}
                       >
                         Create new Game
                       </Button>
@@ -79,7 +149,12 @@ export class OnlineGame extends Component {
                 </Row>
               </Container>
             )}
-
+            {(isCreateRoom || isPlaying) && (
+              <div className="game">
+                <OnlineBoard onClickSquare={i => this.onClickSquare(i)} />
+                {isPlaying && <OnlineInfo />}
+              </div>
+            )}
             <Modal
               centered
               show={!isLoggedIn}
@@ -138,10 +213,17 @@ export class OnlineGame extends Component {
             <Button variant="secondary" onClick={toggleJoinModal}>
               Cancel
             </Button>
-            <Button variant="primary">Enter</Button>
+            <Button variant="primary" onClick={this.handleJoinGame}>
+              Enter
+            </Button>
           </Modal.Footer>
         </Modal>
-        <Modal centered show={isCreateModal} onHide={toggleCreateModal}>
+        <Modal
+          centered
+          show={isCreateRoom}
+          onHide={toggleCreateRoom}
+          backdrop="static"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Create new game</Modal.Title>
           </Modal.Header>
@@ -155,10 +237,10 @@ export class OnlineGame extends Component {
               }}
             >
               <p style={{ textAlign: 'center', marginBottom: '10px' }}>
-                Your room ID is
+                Share this room ID with your friends
               </p>
               <h1 style={{ color: '#FF0800' }}>
-                <b>{shortid.generate()}</b>
+                <b>{roomId}</b>
               </h1>
             </div>
             <div
@@ -181,7 +263,7 @@ export class OnlineGame extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button block variant="secondary" onClick={toggleCreateModal}>
+            <Button block variant="secondary" onClick={toggleCreateRoom}>
               Cancel
             </Button>
           </Modal.Footer>

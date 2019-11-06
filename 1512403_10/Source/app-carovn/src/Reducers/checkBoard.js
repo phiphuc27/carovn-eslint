@@ -3,7 +3,6 @@ import getBestSquare from '../Helpers/aiAlgorithm';
 /* eslint-disable default-case */
 const defaultState = {
   squares: [],
-  bestSquare: 0,
   history: [
     {
       playedSquares: []
@@ -14,7 +13,8 @@ const defaultState = {
   winner: {
     name: '',
     moves: null
-  }
+  },
+  undoMax: 2
 };
 
 const resetRadioBtn = () => {
@@ -47,6 +47,7 @@ const board = (state = defaultState, action) => {
   );
   let tmpBestSquare;
   let lastStepSquare;
+  let checkWinner;
   let currentSquares = current.playedSquares;
 
   switch (action.type) {
@@ -71,7 +72,7 @@ const board = (state = defaultState, action) => {
         }
       };
     case 'CLICK_SQUARE':
-      if (squares[action.index] || checkXWinner.name) {
+      if (squares[action.index] || checkXWinner.name || checkOWinner.name) {
         return state;
       }
       squares[action.index] = player;
@@ -117,6 +118,42 @@ const board = (state = defaultState, action) => {
           bestSquare: tmpBestSquare
         }
       };
+    case 'CLICK_SQUARE_ONLINE':
+      if (squares[action.index] || checkXWinner.name || checkOWinner.name) {
+        return state;
+      }
+      if (
+        (action.player === 'x' && !state.xIsNext) ||
+        (action.player === 'o' && state.xIsNext)
+      ) {
+        return state;
+      }
+      squares[action.index] = action.player;
+      currentSquares = [
+        ...currentSquares,
+        {
+          id: action.index,
+          position: {
+            row: Math.floor(action.index / 20),
+            col: action.index % 20
+          },
+          value: squares[action.index]
+        }
+      ];
+      return {
+        ...state,
+        ...{
+          history: [
+            ...tmpHistory,
+            {
+              playedSquares: [...currentSquares]
+            }
+          ],
+          stepNumber: tmpHistory.length,
+          xIsNext: !state.xIsNext,
+          squares
+        }
+      };
     case 'JUMP_TO':
       for (let i = 0; i < stepHistory.playedSquares.length; i += 1) {
         const curSquare = stepHistory.playedSquares[i];
@@ -125,20 +162,38 @@ const board = (state = defaultState, action) => {
       }
       lastStepSquare =
         stepHistory.playedSquares[stepHistory.playedSquares.length - 1];
+      if (action.step > 0) {
+        checkWinner =
+          lastStepSquare.value === 'x'
+            ? calculateWinner(stepHistory.playedSquares, newSquares, player)
+            : calculateWinner(stepHistory.playedSquares, newSquares, computer);
+      } else checkWinner = { name: '', moves: null };
       return {
         ...state,
         ...{
           squares: newSquares,
           stepNumber: action.step,
-          winner:
-            lastStepSquare.value === 'x'
-              ? calculateWinner(stepHistory.playedSquares, newSquares, player)
-              : calculateWinner(stepHistory.playedSquares, newSquares, computer)
+          xIsNext: action.step % 2 === 0,
+          winner: checkWinner
         }
       };
-    case 'CHECK_WINNER':
+
+    case 'REDUCE_NUM_UNDO': {
+      return { ...state, undoMax: state.undoMax - 1 };
+    }
+
+    case 'REDUCE_OPPONENT_UNDO': {
+      return state;
+    }
+
+    case 'CHECK_WINNER': {
       if (checkXWinner.name) return { ...state, winner: checkXWinner };
       return { ...state, winner: checkOWinner };
+    }
+
+    case 'SET_WINNER': {
+      return { ...state, winner: { ...state.winner, name: action.name } };
+    }
     default:
       return { ...state, squares: Array(20 * 20).fill(null) };
   }

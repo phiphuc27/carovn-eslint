@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FiX, FiCircle } from 'react-icons/fi';
-import { toggleSort, newGame, jumpTo } from '../Actions';
-import History from '../Components/Game/History';
+import { toggleSort, newGame, jumpTo } from '../../Actions';
+import History from '../../Components/Game/History';
 
 export class VisibleGameInfo extends Component {
   getStatus = () => {
