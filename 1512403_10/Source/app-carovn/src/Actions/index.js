@@ -116,7 +116,7 @@ export const login = data => {
         dispatch(getLoginUser(response.data.token));
       })
       .catch(err => {
-        dispatch(errorLogin(err.response.data));
+        dispatch(errorLogin(err.response.data.message));
       });
   };
 };
